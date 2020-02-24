@@ -26,7 +26,7 @@ router.get('/', async (req, res, next) => {
 	}
 })
 
-router.post("/:id", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
     try {
         const {name, description} = req.body
         if (!req.body.name || !req.body.description) {
@@ -57,6 +57,19 @@ router.put("/:id", async (req, res, next) => {
        console.log(err)
         res.status(500).json({
             message: "Error updating the project",
+        })
+		next(err)
+    }
+})
+
+router.delete("/:id", async (req, res, next) => {
+	try {
+		const data = await db.remove(req.params.id)
+        res.status(200).json({ message: 'The project has been deleted' })
+	} catch(err) {
+       console.log(err)
+        res.status(500).json({
+            message: "Error removing the project",
         })
 		next(err)
     }
