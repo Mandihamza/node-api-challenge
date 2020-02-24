@@ -45,4 +45,21 @@ router.post("/:id", async (req, res, next) => {
     }
 })
 
+router.put("/:id", async (req, res, next) => {
+	try {
+        const {id} = req.body
+        if (!id) {
+            throw new Error("Unable to locate project with that id")
+        } 
+		const data = await db.update(req.params.id, req.body)
+        res.status(201).json(data)
+	} catch(err) {
+       console.log(err)
+        res.status(500).json({
+            message: "Error updating the project",
+        })
+		next(err)
+    }
+})
+
   module.exports = router;
